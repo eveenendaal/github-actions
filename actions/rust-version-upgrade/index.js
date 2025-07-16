@@ -33,6 +33,10 @@ function updateCargoToml(newVersion) {
   fs.writeFileSync(cargoPath, content);
 }
 
+function writeVersionFile(newVersion) {
+  fs.writeFileSync('VERSION', newVersion + '\n');
+}
+
 async function run() {
   try {
     const prefix = core.getInput('tag-prefix') || 'v';
@@ -41,8 +45,9 @@ async function run() {
     let currentVersion = latestTag ? latestTag.replace(prefix, '') : '1.0.0';
     let newVersion = bumpVersion(currentVersion, bump);
     updateCargoToml(newVersion);
+    writeVersionFile(newVersion);
     core.setOutput('version', newVersion);
-    core.info(`Updated Cargo.toml to version ${newVersion}`);
+    core.info(`Updated Cargo.toml and VERSION file to version ${newVersion}`);
   } catch (error) {
     core.setFailed(`Action failed: ${error.message}`);
   }
