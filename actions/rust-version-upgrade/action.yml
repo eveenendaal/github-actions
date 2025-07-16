@@ -1,6 +1,6 @@
 name: 'Rust Version Upgrade'
-description: 'Calculates the next version number from git tags and updates Cargo.toml inline.'
-author: 'Your Name'
+description: 'Calculates the next version number from git tags and updates Cargo.toml and VERSION file using shell.'
+author: 'Eric Veenendaal'
 
 inputs:
   tag-prefix:
@@ -14,11 +14,36 @@ inputs:
 
 outputs:
   version:
-    description: 'The new version number calculated and set in Cargo.toml'
+    description: 'The new version number calculated and set in Cargo.toml and VERSION file'
 
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+        set -e
+        prefix="${{ inputs.tag-prefix }}"
+        bump="${{ inputs.bump }}"
+        latest_tag=$(git tag -l "${prefix}*" | sort -V | tail -n1)
+        if [ -z "$latest_tag" ]; then
+          current_version="1.0.0"
+        else
+          current_version="${latest_tag#$prefix}"
+        fi
+        IFS='.' read -r major minor patch <<< "$current_version"
+        case "$bump" in
+          major)
+            major=$((major + 1)); minor=0; patch=0 ;;
+          minor)
+            minor=$((minor + 1)); patch=0 ;;
+          *)
+            patch=$((patch + 1)) ;;
+        esac
+        new_version="$major.$minor.$patch"
+        echo "version=$new_version" >> $GITHUB_OUTPUT
+        sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" Cargo.toml
+        echo "$new_version" > VERSION
+        echo "Updated Cargo.toml and VERSION file to version $new_version"
 
 branding:
   icon: 'tag'
