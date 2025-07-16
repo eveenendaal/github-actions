@@ -1,0 +1,25 @@
+name: 'Rust Version Upgrade'
+description: 'Calculates the next version number from git tags and updates Cargo.toml inline.'
+author: 'Your Name'
+
+inputs:
+  tag-prefix:
+    description: 'Prefix for version tags (e.g., v)'
+    required: false
+    default: 'v'
+  bump:
+    description: 'Which part to bump: major, minor, or patch'
+    required: false
+    default: 'minor'
+
+outputs:
+  version:
+    description: 'The new version number calculated and set in Cargo.toml'
+
+runs:
+  using: 'node20'
+  main: 'index.js'
+
+branding:
+  icon: 'tag'
+  color: 'blue'
