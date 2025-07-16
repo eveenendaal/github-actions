@@ -1,7 +1,7 @@
 {
-  "name": "hello-world-greeting-action",
+  "name": "rust-version-upgrade-action",
   "version": "1.0.0",
-  "description": "An example custom GitHub action that generates personalized greetings",
+  "description": "A GitHub Action that calculates the next Rust version from git tags and updates Cargo.toml and VERSION file.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,11 +9,11 @@
   "keywords": [
     "github",
     "action",
-    "example",
-    "greeting",
-    "hello-world"
+    "rust",
+    "version",
+    "cargo"
   ],
-  "author": "Example Author",
+  "author": "Eric Veenendaal",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",
