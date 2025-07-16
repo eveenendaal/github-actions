@@ -1,0 +1,45 @@
+name: Example Usage of Hello World Greeting Action
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  greeting-examples:
+    runs-on: ubuntu-latest
+    name: Demonstrate greeting action
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Casual Greeting
+      id: casual-greeting
+      uses: ./
+      with:
+        name: 'GitHub User'
+        greeting-type: 'casual'
+        
+    - name: Formal Greeting
+      id: formal-greeting
+      uses: ./
+      with:
+        name: 'Distinguished Developer'
+        greeting-type: 'formal'
+        
+    - name: Enthusiastic Greeting
+      id: enthusiastic-greeting
+      uses: ./
+      with:
+        name: 'Amazing Contributor'
+        greeting-type: 'enthusiastic'
+        
+    - name: Show Results
+      run: |
+        echo "Casual greeting: ${{ steps.casual-greeting.outputs.greeting }}"
+        echo "Formal greeting: ${{ steps.formal-greeting.outputs.greeting }}"
+        echo "Enthusiastic greeting: ${{ steps.enthusiastic-greeting.outputs.greeting }}"
+        echo "Last greeting time: ${{ steps.enthusiastic-greeting.outputs.time }}"
