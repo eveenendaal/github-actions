@@ -1,109 +1,113 @@
-# Hello World Greeting Action
+# GitHub Actions Collection
 
-An example custom GitHub action that generates personalized greetings. This action demonstrates the basic structure and functionality of a custom GitHub action that can be used in other repositories.
+A collection of example custom GitHub actions that demonstrate different patterns and functionality. This repository contains multiple reusable actions that can be used in other repositories.
 
-## Features
+## Available Actions
 
-- 🎯 Simple and easy to understand example
-- 📝 Configurable greeting types (casual, formal, enthusiastic)
-- ⏰ Provides timestamp of when greeting was generated
-- 🔧 Uses standard GitHub Actions toolkit
-- 📖 Comprehensive documentation and examples
+### 🎯 [Hello World Greeting](actions/hello-world)
+An example custom GitHub action that generates personalized greetings with different styles.
 
-## Usage
-
-### Basic Example
-
+**Usage:**
 ```yaml
-- name: Generate Greeting
-  id: greeting
-  uses: eveenendaal/github-actions@v1
+- uses: eveenendaal/github-actions/actions/hello-world@v1
   with:
     name: 'World'
     greeting-type: 'casual'
-
-- name: Use Greeting
-  run: echo "${{ steps.greeting.outputs.greeting }}"
 ```
 
-### Advanced Example
+**Features:**
+- Multiple greeting types (casual, formal, enthusiastic)
+- Configurable name input
+- Timestamp output
+- Simple and educational example
 
+### 🕐 [Timestamp Information](actions/timestamp-info)
+A GitHub action that provides various timestamp formats and timezone information.
+
+**Usage:**
 ```yaml
-- name: Formal Greeting
-  id: formal-greeting
-  uses: eveenendaal/github-actions@v1
+- uses: eveenendaal/github-actions/actions/timestamp-info@v1
   with:
-    name: 'Distinguished Developer'
-    greeting-type: 'formal'
-
-- name: Show Results
-  run: |
-    echo "Greeting: ${{ steps.formal-greeting.outputs.greeting }}"
-    echo "Generated at: ${{ steps.formal-greeting.outputs.time }}"
+    timezone: 'America/New_York'
+    format: 'human'
 ```
 
-## Inputs
+**Features:**
+- Multiple timestamp formats (ISO, Unix, Human-readable, Local)
+- Timezone support with automatic conversion
+- Comprehensive timestamp information outputs
+- All formats available in outputs
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `name` | Name of the person to greet | Yes | `World` |
-| `greeting-type` | Type of greeting (`casual`, `formal`, `enthusiastic`) | No | `casual` |
+## Quick Start
 
-## Outputs
+Each action is self-contained in its own directory under `actions/`. To use any action:
 
-| Output | Description |
-|--------|-------------|
-| `greeting` | The personalized greeting message |
-| `time` | ISO timestamp of when the greeting was generated |
+1. Reference the action with the full path: `eveenendaal/github-actions/actions/{action-name}@v1`
+2. Check the individual action's README for specific usage instructions
+3. See the example workflow for complete usage demonstrations
 
-## Greeting Types
+## Repository Structure
 
-### Casual (default)
-- Format: `Hello, {name}! Nice to see you.`
-- Use case: General purpose, friendly tone
+```
+.
+├── actions/
+│   ├── hello-world/           # Greeting action
+│   │   ├── action.yml
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── README.md
+│   └── timestamp-info/        # Timestamp action
+│       ├── action.yml
+│       ├── index.js
+│       ├── package.json
+│       └── README.md
+├── .github/
+│   └── workflows/
+│       └── example.yml        # Example workflow demonstrating all actions
+├── README.md                  # This file
+└── LICENSE                    # MIT License
+```
 
-### Formal
-- Format: `Good day, {name}. I hope you are well.`
-- Use case: Professional or formal contexts
+## Example Workflow
 
-### Enthusiastic
-- Format: `Hey there, {name}! 🎉 What an amazing day!`
-- Use case: Celebratory or high-energy contexts
+See [.github/workflows/example.yml](.github/workflows/example.yml) for a complete example demonstrating all available actions.
 
 ## Development
 
-This action is built using:
+### Adding New Actions
+
+1. Create a new directory under `actions/` with a descriptive name
+2. Add the following files:
+   - `action.yml` - Action metadata and configuration
+   - `index.js` - Main action logic
+   - `package.json` - Node.js dependencies
+   - `README.md` - Action-specific documentation
+3. Install dependencies: `npm install`
+4. Test the action in a workflow
+5. Update this main README to include the new action
+
+### Common Dependencies
+
+All actions use:
 - Node.js 20
 - GitHub Actions Toolkit (@actions/core, @actions/github)
 
 ### Local Development
 
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Make your changes
-4. Test in a workflow
-
-### File Structure
-
-```
-.
-├── action.yml          # Action metadata and configuration
-├── index.js            # Main action logic
-├── package.json        # Node.js dependencies
-├── README.md          # Documentation
-├── .gitignore         # Git ignore patterns
-└── .github/
-    └── workflows/
-        └── example.yml # Example workflow demonstrating usage
-```
-
-## Example Workflow
-
-See [.github/workflows/example.yml](.github/workflows/example.yml) for a complete example demonstrating all greeting types.
+2. Navigate to the specific action directory
+3. Install dependencies: `npm install`
+4. Make your changes
+5. Test in a workflow
 
 ## Contributing
 
-This is an example action for educational purposes. Feel free to fork and modify for your own use cases.
+This repository serves as a collection of example actions for educational purposes. Feel free to:
+
+- Fork and modify for your own use cases
+- Submit pull requests with new example actions
+- Report issues or suggest improvements
+- Use these as templates for your own action development
 
 ## License
 
@@ -111,12 +115,12 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## About
 
-This action serves as a template and example for creating custom GitHub actions. It demonstrates:
+This repository demonstrates:
 
-- Basic action structure and configuration
-- Input and output handling
-- Using GitHub Actions toolkit
-- Proper documentation and examples
+- Multi-action repository structure
+- Different types of GitHub action patterns
+- Best practices for action development
+- Comprehensive documentation and examples
 - Workflow integration patterns
 
-Perfect for learning how to create your own custom GitHub actions!
+Perfect for learning how to create and organize custom GitHub actions!

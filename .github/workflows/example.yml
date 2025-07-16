@@ -1,4 +1,4 @@
-name: Example Usage of Hello World Greeting Action
+name: Example Usage of GitHub Actions Collection
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 jobs:
   greeting-examples:
     runs-on: ubuntu-latest
-    name: Demonstrate greeting action
+    name: Demonstrate hello-world greeting action
     
     steps:
     - name: Checkout
@@ -18,28 +18,75 @@ jobs:
       
     - name: Casual Greeting
       id: casual-greeting
-      uses: ./
+      uses: ./actions/hello-world
       with:
         name: 'GitHub User'
         greeting-type: 'casual'
         
     - name: Formal Greeting
       id: formal-greeting
-      uses: ./
+      uses: ./actions/hello-world
       with:
         name: 'Distinguished Developer'
         greeting-type: 'formal'
         
     - name: Enthusiastic Greeting
       id: enthusiastic-greeting
-      uses: ./
+      uses: ./actions/hello-world
       with:
         name: 'Amazing Contributor'
         greeting-type: 'enthusiastic'
         
-    - name: Show Results
+    - name: Show Greeting Results
       run: |
         echo "Casual greeting: ${{ steps.casual-greeting.outputs.greeting }}"
         echo "Formal greeting: ${{ steps.formal-greeting.outputs.greeting }}"
         echo "Enthusiastic greeting: ${{ steps.enthusiastic-greeting.outputs.greeting }}"
         echo "Last greeting time: ${{ steps.enthusiastic-greeting.outputs.time }}"
+
+  timestamp-examples:
+    runs-on: ubuntu-latest
+    name: Demonstrate timestamp-info action
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Get UTC Timestamp
+      id: utc-timestamp
+      uses: ./actions/timestamp-info
+      with:
+        timezone: 'UTC'
+        format: 'iso'
+        
+    - name: Get NY Timestamp
+      id: ny-timestamp
+      uses: ./actions/timestamp-info
+      with:
+        timezone: 'America/New_York'
+        format: 'human'
+        
+    - name: Get London Timestamp
+      id: london-timestamp
+      uses: ./actions/timestamp-info
+      with:
+        timezone: 'Europe/London'
+        format: 'local'
+        
+    - name: Get Unix Timestamp
+      id: unix-timestamp
+      uses: ./actions/timestamp-info
+      with:
+        timezone: 'UTC'
+        format: 'unix'
+        
+    - name: Show Timestamp Results
+      run: |
+        echo "UTC ISO: ${{ steps.utc-timestamp.outputs.timestamp }}"
+        echo "NY Human: ${{ steps.ny-timestamp.outputs.timestamp }}"
+        echo "London Local: ${{ steps.london-timestamp.outputs.timestamp }}"
+        echo "Unix: ${{ steps.unix-timestamp.outputs.timestamp }}"
+        echo "All formats from UTC:"
+        echo "  ISO: ${{ steps.utc-timestamp.outputs.iso }}"
+        echo "  Unix: ${{ steps.utc-timestamp.outputs.unix }}"
+        echo "  Human: ${{ steps.utc-timestamp.outputs.human }}"
