@@ -14,12 +14,14 @@ inputs:
 
 outputs:
   version:
-    description: 'The new version number calculated and set in Cargo.toml and VERSION file'
+    description: 'The new version number'
+    value: ${{ steps.set_version.outputs.version }}
 
 runs:
   using: 'composite'
   steps:
-    - shell: bash
+    - id: set_version
+      shell: bash
       run: |
         set -e
         prefix="${{ inputs.tag-prefix }}"
@@ -40,7 +42,7 @@ runs:
             patch=$((patch + 1)) ;;
         esac
         new_version="$major.$minor.$patch"
-        echo "version=$new_version" >> $GITHUB_OUTPUT
+        echo "version=$new_version" >> "$GITHUB_OUTPUT"
         sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" Cargo.toml
         echo "$new_version" > VERSION
         echo "Updated Cargo.toml and VERSION file to version $new_version"
