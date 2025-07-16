@@ -11,7 +11,7 @@ A GitHub action that automatically calculates the next version number for your R
 ```yaml
 - name: Rust Version Upgrade
   id: rust_version
-  uses: ./actions/rust-version-upgrade
+  uses: eveenendaal/github-actions/actions/rust-version-upgrade
   with:
     tag-prefix: 'v'      # Optional, default: 'v'
     bump: 'minor'        # Optional, one of: major, minor, patch (default: minor)
