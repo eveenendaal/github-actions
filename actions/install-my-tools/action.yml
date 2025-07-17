@@ -1,18 +1,32 @@
 name: 'Install Tools'
-description: 'Installs go-task-bin via pip and opentofu.'
+description: 'Installs task via pip and opentofu.'
 author: 'Eric Veenendaal'
+
+inputs:
+  exclude:
+    description: 'Comma-separated list of tools to exclude (e.g., task,opentofu)'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
   steps:
-    - name: Install go-task-bin via pip
+    - name: Install task via pip
       shell: bash
       run: |
-        pip install go-task-bin
+        if [[ ",${{ inputs.exclude }}," != *",task,"* ]]; then
+          pip install go-task-bin
+        else
+          echo "Skipping task installation."
+        fi
     - name: Install OpenTofu
       shell: bash
       run: |
-        curl -sSL https://get.opentofu.org/install.sh | bash
+        if [[ ",${{ inputs.exclude }}," != *",opentofu,"* ]]; then
+          curl -sSL https://get.opentofu.org/install.sh | bash
+        else
+          echo "Skipping OpenTofu installation."
+        fi
 
 branding:
   icon: 'package'
