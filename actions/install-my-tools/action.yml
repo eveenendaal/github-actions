@@ -1,0 +1,19 @@
+name: 'Install Tools'
+description: 'Installs go-task-bin via pip and opentofu.'
+author: 'Eric Veenendaal'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install go-task-bin via pip
+      shell: bash
+      run: |
+        pip install go-task-bin
+    - name: Install OpenTofu
+      shell: bash
+      run: |
+        curl -sSL https://get.opentofu.org/install.sh | bash
+
+branding:
+  icon: 'package'
+  color: 'blue'

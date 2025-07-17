@@ -35,9 +35,9 @@ Add this step to your workflow:
 
 ## Outputs
 
-| Output   | Description                          |
-|----------|--------------------------------------|
-| `version`| The new version number set in Cargo.toml and VERSION |
+| Output    | Description                                          |
+|-----------|------------------------------------------------------|
+| `version` | The new version number set in Cargo.toml and VERSION |
 
 ## Example
 
