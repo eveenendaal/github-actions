@@ -84,7 +84,7 @@ runs:
       shell: bash
       run: |
         curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-        export PATH="$HOME/.fnm/bin:$PATH"
+        export PATH="$HOME/.local/share:$PATH"
         fnm install 20
         fnm use 20
         fnm default 20
@@ -94,7 +94,7 @@ runs:
       shell: bash
       run: |
         curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-        export PATH="$HOME/.fnm/bin:$PATH"
+        export PATH="$HOME/.local/share:$PATH"
         fnm install 22
         fnm use 22
         fnm default 22
