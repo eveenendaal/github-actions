@@ -83,8 +83,7 @@ runs:
       if: runner.os == 'Linux' && inputs.include != '' && contains(inputs.include, 'node20')
       shell: bash
       run: |
-        curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-        export PATH="$HOME/.local/share:$PATH"
+        cargo install fnm
         fnm install 20
         fnm use 20
         fnm default 20
@@ -93,8 +92,7 @@ runs:
       if: runner.os == 'Linux' && inputs.include != '' && contains(inputs.include, 'node22')
       shell: bash
       run: |
-        curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-        export PATH="$HOME/.local/share:$PATH"
+        cargo install fnm
         fnm install 22
         fnm use 22
         fnm default 22
