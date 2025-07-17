@@ -11,13 +11,31 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install task
+    - name: Install tools
       shell: bash
       run: |
-        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",task,"* ]]; then
-          if [[ "$(uname)" == "Darwin" ]]; then
-            pip install go-task-bin
-          elif [[ "$(uname)" == "Linux" ]]; then
+        # Helper to check if a tool is included
+        included() {
+          [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",$1,"*" ]]
+        }
+        if [[ "$(uname)" == "Darwin" ]]; then
+          if included task; then
+            brew install go-task
+          else
+            echo "Skipping task installation."
+          fi
+          if included opentofu; then
+            brew install opentofu
+          else
+            echo "Skipping OpenTofu installation."
+          fi
+          if included uv; then
+            brew install uv
+          else
+            echo "Skipping uv installation."
+          fi
+        elif [[ "$(uname)" == "Linux" ]]; then
+          if included task; then
             if command -v snap &> /dev/null; then
               sudo snap install task --classic
             else
@@ -25,32 +43,26 @@ runs:
               exit 1
             fi
           else
-            echo "Unsupported OS for task installation."
-            exit 1
+            echo "Skipping task installation."
           fi
-        else
-          echo "Skipping task installation."
-        fi
-    - name: Install OpenTofu via snap
-      shell: bash
-      run: |
-        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",opentofu,"* ]]; then
-          if command -v snap &> /dev/null; then
-            sudo snap install opentofu --classic
+          if included opentofu; then
+            if command -v snap &> /dev/null; then
+              sudo snap install opentofu --classic
+            else
+              echo "snap is not installed. Please install snap to use this action for opentofu."
+              exit 1
+            fi
           else
-            echo "snap is not installed. Please install snap to use this action for opentofu."
-            exit 1
+            echo "Skipping OpenTofu installation."
+          fi
+          if included uv; then
+            pip install uv
+          else
+            echo "Skipping uv installation."
           fi
         else
-          echo "Skipping OpenTofu installation."
-        fi
-    - name: Install uv
-      shell: bash
-      run: |
-        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",uv,"* ]]; then
-          pip install uv
-        else
-          echo "Skipping uv installation."
+          echo "Unsupported OS for tool installation."
+          exit 1
         fi
 
 branding:
