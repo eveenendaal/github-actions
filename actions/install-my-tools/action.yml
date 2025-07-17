@@ -16,26 +16,26 @@ runs:
     # macOS Installation
     # =====================
     - name: Install go-task on macOS
-      # Installs go-task using Homebrew if included or if no tools specified
-      if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'task'))
+      # Installs go-task using Homebrew if 'task' is included
+      if: runner.os == 'macOS' && inputs.include != '' && contains(inputs.include, 'task')
       shell: bash
       run: brew install go-task
     - name: Install opentofu on macOS
-      # Installs opentofu using Homebrew if included or if no tools specified
-      if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'opentofu'))
+      # Installs opentofu using Homebrew if 'opentofu' is included
+      if: runner.os == 'macOS' && inputs.include != '' && contains(inputs.include, 'opentofu')
       shell: bash
       run: brew install opentofu
     - name: Install uv on macOS
-      # Installs uv using Homebrew if included or if no tools specified
-      if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'uv'))
+      # Installs uv using Homebrew if 'uv' is included
+      if: runner.os == 'macOS' && inputs.include != '' && contains(inputs.include, 'uv')
       shell: bash
       run: brew install uv
     # =====================
     # Linux Installation
     # =====================
     - name: Install go-task on Linux
-      # Installs go-task using snap if included or if no tools specified
-      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'task'))
+      # Installs go-task using snap if 'task' is included
+      if: runner.os == 'Linux' && inputs.include != '' && contains(inputs.include, 'task')
       shell: bash
       run: |
         if command -v snap &> /dev/null; then
@@ -45,8 +45,8 @@ runs:
           exit 1
         fi
     - name: Install opentofu on Linux
-      # Installs opentofu using snap if included or if no tools specified
-      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'opentofu'))
+      # Installs opentofu using snap if 'opentofu' is included
+      if: runner.os == 'Linux' && inputs.include != '' && contains(inputs.include, 'opentofu')
       shell: bash
       run: |
         if command -v snap &> /dev/null; then
@@ -56,8 +56,8 @@ runs:
           exit 1
         fi
     - name: Install uv on Linux
-      # Installs uv using pip if included or if no tools specified
-      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'uv'))
+      # Installs uv using pip if 'uv' is included
+      if: runner.os == 'Linux' && inputs.include != '' && contains(inputs.include, 'uv')
       shell: bash
       run: pip install uv
 
