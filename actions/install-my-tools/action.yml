@@ -44,6 +44,14 @@ runs:
         else
           echo "Skipping OpenTofu installation."
         fi
+    - name: Install uv
+      shell: bash
+      run: |
+        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",uv,"* ]]; then
+          pip install uv
+        else
+          echo "Skipping uv installation."
+        fi
 
 branding:
   icon: 'package'
