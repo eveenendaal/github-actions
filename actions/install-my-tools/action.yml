@@ -11,15 +11,27 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install task via pip
+    - name: Install task
       shell: bash
       run: |
         if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",task,"* ]]; then
-          pip install go-task-bin
+          if [[ "$(uname)" == "Darwin" ]]; then
+            pip install go-task-bin
+          elif [[ "$(uname)" == "Linux" ]]; then
+            if command -v snap &> /dev/null; then
+              sudo snap install task --classic
+            else
+              echo "snap is not installed. Please install snap to use this action for task."
+              exit 1
+            fi
+          else
+            echo "Unsupported OS for task installation."
+            exit 1
+          fi
         else
           echo "Skipping task installation."
         fi
-    - name: Install OpenTofu
+    - name: Install OpenTofu via snap
       shell: bash
       run: |
         if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",opentofu,"* ]]; then
