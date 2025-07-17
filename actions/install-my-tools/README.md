@@ -1,12 +1,12 @@
 # Install Tools Action
 
-This GitHub Action installs task via pip and OpenTofu using the official install script. You can exclude either tool using the `exclude` input.
+This GitHub Action installs task via pip and OpenTofu using the official install script. You can specify which tools to install using the `include` input.
 
 ## Features
 
 - Installs task using pip
 - Installs OpenTofu using the official install script
-- Allows exclusion of tools via input
+- Allows selection of tools via input
 
 ## Usage
 
@@ -17,23 +17,32 @@ Add this step to your workflow:
   uses: ./actions/install-my-tools
 ```
 
-### Exclude Tools
+### Include Tools
 
-To exclude one or both tools, use the `exclude` input:
+To install only specific tools, use the `include` input:
 
 ```yaml
-- name: Install Tools (exclude task)
+- name: Install Tools (only task)
   uses: ./actions/install-my-tools
   with:
-    exclude: task
+    include: task
 ```
 
 ```yaml
-- name: Install Tools (exclude both)
+- name: Install Tools (only opentofu)
   uses: ./actions/install-my-tools
   with:
-    exclude: task,opentofu
+    include: opentofu
 ```
+
+```yaml
+- name: Install Tools (both)
+  uses: ./actions/install-my-tools
+  with:
+    include: task,opentofu
+```
+
+If `include` is empty or not set, both tools are installed by default.
 
 ---
 

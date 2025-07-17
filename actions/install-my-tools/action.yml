@@ -3,8 +3,8 @@ description: 'Installs task via pip and opentofu.'
 author: 'Eric Veenendaal'
 
 inputs:
-  exclude:
-    description: 'Comma-separated list of tools to exclude (e.g., task,opentofu)'
+  include:
+    description: 'Comma-separated list of tools to include (e.g., task,opentofu). If empty, all tools are installed.'
     required: false
     default: ''
 
@@ -14,7 +14,7 @@ runs:
     - name: Install task via pip
       shell: bash
       run: |
-        if [[ ",${{ inputs.exclude }}," != *",task,"* ]]; then
+        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",task,"* ]]; then
           pip install go-task-bin
         else
           echo "Skipping task installation."
@@ -22,7 +22,7 @@ runs:
     - name: Install OpenTofu
       shell: bash
       run: |
-        if [[ ",${{ inputs.exclude }}," != *",opentofu,"* ]]; then
+        if [[ -z "${{ inputs.include }}" || ",${{ inputs.include }}," == *",opentofu,"* ]]; then
           curl -sSL https://get.opentofu.org/install.sh | bash
         else
           echo "Skipping OpenTofu installation."
