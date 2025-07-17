@@ -11,7 +11,7 @@ A GitHub action that automatically calculates the next version number for your R
 ```yaml
 - name: Rust Version Upgrade
   id: rust_version
-  uses: eveenendaal/github-actions/actions/rust-version-upgrade
+  uses: eveenendaal/github-actions/actions/rust-version-upgrade@master
   with:
     tag-prefix: 'v'      # Optional, default: 'v'
     bump: 'minor'        # Optional, one of: major, minor, patch (default: minor)
@@ -25,6 +25,19 @@ A GitHub action that automatically calculates the next version number for your R
 - Uses git tags to determine the current version
 - Updates `Cargo.toml` inline
 - Outputs the new version for use in subsequent workflow steps
+
+### 🛠️ [Install Tools](actions/install-my-tools)
+Installs task (via pip) and OpenTofu (via official script). You can specify which tools to install using the `include` input.
+
+**Usage:**
+```yaml
+- name: Install Tools
+  uses: eveenendaal/github-actions/actions/install-my-tools@master
+  with:
+    include: task,opentofu # or just 'task', or just 'opentofu', or leave empty for both
+```
+
+See [actions/install-my-tools/README.md](actions/install-my-tools/README.md) for more details.
 
 ## Quick Start
 

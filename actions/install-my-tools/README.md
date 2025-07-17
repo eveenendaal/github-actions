@@ -14,7 +14,7 @@ Add this step to your workflow:
 
 ```yaml
 - name: Install Tools
-  uses: ./actions/install-my-tools
+  uses: eveenendaal/github-actions/actions/install-my-tools@master
 ```
 
 ### Include Tools

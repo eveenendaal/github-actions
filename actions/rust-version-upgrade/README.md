@@ -17,7 +17,7 @@ Add this step to your workflow:
 ```yaml
 - name: Rust Version Upgrade
   id: rust_version
-  uses: ./actions/rust-version-upgrade
+  uses: eveenendaal/github-actions/actions/rust-version-upgrade@master
   with:
     tag-prefix: 'v'      # Optional, default: 'v'
     bump: 'minor'        # Optional, one of: major, minor, patch (default: minor)
