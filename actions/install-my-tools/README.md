@@ -1,11 +1,11 @@
 # Install Tools Action
 
-This GitHub Action installs task via pip and OpenTofu using the official install script. You can specify which tools to install using the `include` input.
+This GitHub Action installs task via pip and OpenTofu using snap. You can specify which tools to install using the `include` input.
 
 ## Features
 
 - Installs task using pip
-- Installs OpenTofu using the official install script
+- Installs OpenTofu using snap
 - Allows selection of tools via input
 
 ## Usage
@@ -42,7 +42,7 @@ To install only specific tools, use the `include` input:
     include: task,opentofu
 ```
 
-If `include` is empty or not set, both tools are installed by default.
+If `include` is empty, both tools are installed by default.
 
 ---
 

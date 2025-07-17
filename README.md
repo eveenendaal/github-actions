@@ -1,6 +1,6 @@
 # GitHub Actions Collection
 
-A collection of custom GitHub actions for automating Rust project versioning.
+A collection of custom GitHub actions for automating Rust project versioning and installing development tools.
 
 ## Available Actions
 
@@ -27,7 +27,7 @@ A GitHub action that automatically calculates the next version number for your R
 - Outputs the new version for use in subsequent workflow steps
 
 ### 🛠️ [Install Tools](actions/install-my-tools)
-Installs task (via pip) and OpenTofu (via official script). You can specify which tools to install using the `include` input.
+Installs task (via pip) and OpenTofu (via snap). You can specify which tools to install using the `include` input.
 
 **Usage:**
 ```yaml
