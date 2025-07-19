@@ -1,0 +1,103 @@
+name: 'Get Next Version'
+description: 'Calculates the next semantic version from GitHub releases'
+author: 'Eric Veenendaal'
+
+inputs:
+  version-prefix:
+    description: 'Prefix for version tags (e.g., v). Leave empty for no prefix.'
+    required: false
+    default: ''
+  bump-type:
+    description: 'Which part to bump: major, minor, or patch'
+    required: false
+    default: 'patch'
+
+outputs:
+  next-version:
+    description: 'The calculated next version number'
+    value: ${{ steps.calculate_version.outputs.next_version }}
+  current-version:
+    description: 'The current/latest version found (empty if no releases)'
+    value: ${{ steps.calculate_version.outputs.current_version }}
+
+runs:
+  using: 'composite'
+  steps:
+    - id: calculate_version
+      shell: bash
+      run: |
+        set -e
+        
+        prefix="${{ inputs.version-prefix }}"
+        bump_type="${{ inputs.bump-type }}"
+        
+        echo "Fetching latest release version..."
+        
+        # Get the latest release tag, handle case when no releases exist
+        latest_tag=$(gh release list --limit 1 --json tagName \
+          -q '.[0].tagName' 2>/dev/null || echo "")
+        
+        if [[ -z "$latest_tag" ]]; then
+          # No releases exist, start with appropriate version based on bump type
+          case "$bump_type" in
+            major)
+              next_version="1.0.0" ;;
+            minor)
+              next_version="0.1.0" ;;
+            *)
+              next_version="0.0.1" ;;
+          esac
+          echo "No previous releases found, starting with version $next_version"
+          current_version=""
+        elif [[ $latest_tag =~ ^${prefix}([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+          # Parse semantic version (with or without prefix)
+          major=${BASH_REMATCH[1]}
+          minor=${BASH_REMATCH[2]}
+          patch=${BASH_REMATCH[3]}
+          
+          # Remove prefix from current version for output
+          current_version="${latest_tag#$prefix}"
+          
+          # Calculate next version based on bump type
+          case "$bump_type" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            *)
+              patch=$((patch + 1))
+              ;;
+          esac
+          
+          next_version="$major.$minor.$patch"
+          echo "Found latest release: $latest_tag, next version: $next_version"
+        else
+          # Invalid version format, start over with appropriate version
+          case "$bump_type" in
+            major)
+              next_version="1.0.0" ;;
+            minor)
+              next_version="0.1.0" ;;
+            *)
+              next_version="0.0.1" ;;
+          esac
+          echo "Invalid version format in latest release: $latest_tag, resetting to $next_version"
+          current_version="$latest_tag"
+        fi
+        
+        # Output results
+        echo "next_version=$next_version" >> "$GITHUB_OUTPUT"
+        echo "current_version=$current_version" >> "$GITHUB_OUTPUT"
+        
+        echo "✅ Version calculation complete:"
+        echo "   Current version: ${current_version:-'(none)'}"
+        echo "   Next version: $next_version"
+
+branding:
+  icon: 'tag'
+  color: 'green'

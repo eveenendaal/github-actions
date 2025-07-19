@@ -1,8 +1,33 @@
 # GitHub Actions Collection
 
-A collection of custom GitHub actions for automating Rust project versioning and installing development tools.
+A collection of custom GitHub actions for automating version management and installing development tools.
 
 ## Available Actions
+
+### 🏷️ [Get Next Version](actions/get-next-version)
+A GitHub action that calculates the next semantic version number based on existing GitHub releases.
+
+**Usage:**
+```yaml
+- name: Get next version
+  id: version
+  uses: eveenendaal/github-actions/actions/get-next-version@master
+  with:
+    version-prefix: 'v'      # Optional, default: ''
+    bump-type: 'patch'       # Optional, one of: major, minor, patch (default: patch)
+
+- name: Show version info
+  run: |
+    echo "Current version: ${{ steps.version.outputs.current-version }}"
+    echo "Next version: ${{ steps.version.outputs.next-version }}"
+```
+
+**Features:**
+- Uses GitHub releases (not git tags) to determine current version
+- Supports major, minor, or patch version bumping
+- Handles optional version prefixes (like 'v')
+- Smart defaults for edge cases (no releases, invalid formats)
+- Read-only operation - doesn't modify repository files
 
 ### 🏷️ [Rust Version Upgrade](actions/rust-version-upgrade)
 A GitHub action that automatically calculates the next version number for your Rust project based on git tags and updates the version inline in `Cargo.toml`.
@@ -52,14 +77,15 @@ Each action is self-contained in its own directory under `actions/`. To use the 
 ```
 .
 ├── actions/
+│   ├── get-next-version/      # Get next version action
+│   │   ├── action.yml
+│   │   └── README.md
+│   ├── install-my-tools/      # Install development tools action
+│   │   ├── action.yml
+│   │   └── README.md
 │   └── rust-version-upgrade/  # Rust version upgrade action
 │       ├── action.yml
-│       ├── index.js
-│       ├── package.json
 │       └── README.md
-├── .github/
-│   └── workflows/
-│       └── example.yml        # Example workflow demonstrating the action
 ├── README.md                  # This file
 ├── LICENSE                    # MIT License
 ```
