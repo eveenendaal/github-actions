@@ -23,6 +23,16 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Ensure access to releases
+      shell: bash
+      run: |
+        set -e
+        echo "Testing access to GitHub releases..."
+        if ! gh release list --limit 1 > /dev/null 2>&1; then
+          echo "Error: Unable to access GitHub releases. Ensure the GITHUB_TOKEN has appropriate permissions and the repository has releases enabled." >&2
+          exit 1
+        fi
+        echo "GitHub releases are accessible."
     - id: calculate_version
       shell: bash
       run: |

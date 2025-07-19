@@ -63,16 +63,16 @@ A GitHub action that calculates the next semantic version number based on existi
 
 ## Inputs
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `version-prefix` | Prefix for version tags (e.g., 'v'). Leave empty for no prefix. | No | `''` |
-| `bump-type` | Which part to bump: `major`, `minor`, or `patch` | No | `patch` |
+| Input            | Description                                                     | Required | Default |
+|------------------|-----------------------------------------------------------------|----------|---------|
+| `version-prefix` | Prefix for version tags (e.g., 'v'). Leave empty for no prefix. | No       | `''`    |
+| `bump-type`      | Which part to bump: `major`, `minor`, or `patch`                | No       | `patch` |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| `next-version` | The calculated next version number (without prefix) |
+| Output            | Description                                                   |
+|-------------------|---------------------------------------------------------------|
+| `next-version`    | The calculated next version number (without prefix)           |
 | `current-version` | The current/latest version found (empty if no releases exist) |
 
 ## How It Works
