@@ -48,17 +48,8 @@ runs:
           -q '.[0].tagName' 2>/dev/null || echo "")
         
         if [[ -z "$latest_tag" ]]; then
-          # No releases exist, start with appropriate version based on bump type
-          case "$bump_type" in
-            major)
-              next_version="1.0.0" ;;
-            minor)
-              next_version="0.1.0" ;;
-            *)
-              next_version="0.0.1" ;;
-          esac
-          echo "No previous releases found, starting with version $next_version"
-          current_version=""
+          echo "Error: No tags found. At least one release tag is required to proceed.\nMake sure you set 'fetch-depth: 0' on the actions/checkout step so all tags are available." >&2
+          exit 1
         elif [[ $latest_tag =~ ^${prefix}([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
           # Parse semantic version (with or without prefix)
           major=${BASH_REMATCH[1]}
