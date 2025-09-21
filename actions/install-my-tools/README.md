@@ -1,12 +1,13 @@
 # Install Tools Action
 
-This GitHub Action installs task, OpenTofu, and uv. You can specify which tools to install using the `include` input.
+This GitHub Action installs task, OpenTofu, uv, and age. You can specify which tools to install using the `include` input.
 
 ## Features
 
-- Installs task (via pip on macOS, snap on Linux)
-- Installs OpenTofu (via snap)
-- Installs uv (via pip)
+- Installs task (via Homebrew on macOS, snap on Linux)
+- Installs OpenTofu (via Homebrew on macOS, snap on Linux)
+- Installs uv (via Homebrew on macOS, pip on Linux)
+- Installs age (via Homebrew on macOS, apt on Linux)
 - Allows selection of tools via input
 
 ## Usage
@@ -44,10 +45,17 @@ To install only specific tools, use the `include` input:
 ```
 
 ```yaml
+- name: Install Tools (only age)
+  uses: ./actions/install-my-tools
+  with:
+    include: age
+```
+
+```yaml
 - name: Install Tools (all)
   uses: ./actions/install-my-tools
   with:
-    include: task,opentofu,uv
+    include: task,opentofu,uv,age
 ```
 
 If `include` is empty, all tools are installed by default.

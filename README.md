@@ -52,14 +52,14 @@ A GitHub action that automatically calculates the next version number for your R
 - Outputs the new version for use in subsequent workflow steps
 
 ### 🛠️ [Install Tools](actions/install-my-tools)
-Installs task (via pip on macOS, snap on Linux), OpenTofu (via snap), and uv (via pip). You can specify which tools to install using the `include` input.
+Installs task (via Homebrew on macOS, snap on Linux), OpenTofu (via Homebrew on macOS, snap on Linux), uv (via Homebrew on macOS, pip on Linux), and age (via Homebrew on macOS, apt on Linux). You can specify which tools to install using the `include` input.
 
 **Usage:**
 ```yaml
 - name: Install Tools
   uses: eveenendaal/github-actions/actions/install-my-tools@master
   with:
-    include: task,opentofu,uv # or any combination, or leave empty for all
+    include: task,opentofu,uv,age # or any combination, or leave empty for all
 ```
 
 See [actions/install-my-tools/README.md](actions/install-my-tools/README.md) for more details.
