@@ -4,10 +4,11 @@ This GitHub Action installs task, OpenTofu, uv, and age. You can specify which t
 
 ## Features
 
-- Installs task (via Homebrew on macOS, snap on Linux)
-- Installs OpenTofu (via Homebrew on macOS, snap on Linux)
-- Installs uv (via Homebrew on macOS, pip on Linux)
-- Installs age (via Homebrew on macOS, apt on Linux)
+- Installs task (via Homebrew on macOS and Linux)
+- Installs OpenTofu (via Homebrew on macOS and Linux)
+- Installs uv (via Homebrew on macOS and Linux)
+- Installs age (via Homebrew on macOS and Linux)
+- Automatically installs Homebrew on Linux if not present
 - Allows selection of tools via input
 
 ## Usage

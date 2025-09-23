@@ -52,7 +52,7 @@ A GitHub action that automatically calculates the next version number for your R
 - Outputs the new version for use in subsequent workflow steps
 
 ### 🛠️ [Install Tools](actions/install-my-tools)
-Installs task (via Homebrew on macOS, snap on Linux), OpenTofu (via Homebrew on macOS, snap on Linux), uv (via Homebrew on macOS, pip on Linux), and age (via Homebrew on macOS, apt on Linux). You can specify which tools to install using the `include` input.
+Installs task, OpenTofu, uv, and age via Homebrew on both macOS and Linux. Automatically installs Homebrew on Linux if not present. You can specify which tools to install using the `include` input.
 
 **Usage:**
 ```yaml
