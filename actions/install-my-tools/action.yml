@@ -48,6 +48,9 @@ runs:
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          # Add Homebrew directories to PATH for subsequent workflow steps
+          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+          echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
         fi
     - name: Install go-task on Linux
       # Installs go-task using Homebrew if 'task' is included or if include is empty
