@@ -30,7 +30,7 @@ A GitHub action that calculates the next semantic version number based on existi
 - Read-only operation - doesn't modify repository files
 
 ### 🏷️ [Rust Version Upgrade](actions/rust-version-upgrade)
-A GitHub action that automatically calculates the next version number for your Rust project based on git tags and updates the version inline in `Cargo.toml`.
+A GitHub action that automatically calculates the next version number for your Rust project based on git tags and updates the version inline in `Cargo.toml` and writes it to a `VERSION` file.
 
 **Usage:**
 ```yaml
@@ -49,6 +49,7 @@ A GitHub action that automatically calculates the next version number for your R
 - Automatically bumps major, minor, or patch version
 - Uses git tags to determine the current version
 - Updates `Cargo.toml` inline
+- Writes the new version to a `VERSION` file
 - Outputs the new version for use in subsequent workflow steps
 
 ### 🛠️ [Install Tools](actions/install-my-tools)
@@ -66,11 +67,11 @@ See [actions/install-my-tools/README.md](actions/install-my-tools/README.md) for
 
 ## Quick Start
 
-Each action is self-contained in its own directory under `actions/`. To use the Rust version upgrade action:
+Each action is self-contained in its own directory under `actions/`. To use any action:
 
-1. Reference the action with the full path: `./actions/rust-version-upgrade`
+1. Reference the action with the full path: `eveenendaal/github-actions/actions/<action-name>@master`
 2. Check the action's README for specific usage instructions
-3. See the example workflow for complete usage demonstrations
+3. See the example workflows for complete usage demonstrations
 
 ## Repository Structure
 
@@ -86,20 +87,19 @@ Each action is self-contained in its own directory under `actions/`. To use the 
 │   └── rust-version-upgrade/  # Rust version upgrade action
 │       ├── action.yml
 │       └── README.md
-├── README.md                  # This file
-├── LICENSE                    # MIT License
+└── README.md                  # This file
 ```
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License
 
 ## About
 
 This repository demonstrates:
-- Custom GitHub action for Rust version management
+- Custom GitHub actions for version management and development tooling
 - Best practices for action development
-- Comprehensive documentation and examples
+- Comprehensive documentation and examples  
 - Workflow integration patterns
 
-Perfect for automating Rust project versioning in CI/CD!
+Perfect for automating project versioning and development environment setup in CI/CD!
