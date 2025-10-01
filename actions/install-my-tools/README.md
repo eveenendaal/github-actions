@@ -10,7 +10,6 @@ This GitHub Action installs task, OpenTofu, uv, and age. You can specify which t
 - Installs age (via Homebrew on macOS and Linux)
 - Automatically installs Homebrew on Linux if not present
 - Allows selection of tools via input
-- **Caches Homebrew packages** for faster subsequent runs
 
 ## Usage
 
@@ -61,20 +60,6 @@ To install only specific tools, use the `include` input:
 ```
 
 If `include` is empty, all tools are installed by default.
-
-## Caching
-
-This action automatically caches Homebrew packages to speed up subsequent workflow runs. The cache key is based on:
-- The operating system (macOS or Linux)
-- The list of tools being installed
-- A version identifier
-
-This means:
-- If you run the action with the same tools on the same OS, it will reuse the cached packages
-- If you change the list of tools, a new cache entry will be created
-- Caches are shared across branches but isolated by OS and tool selection
-
-No additional configuration is needed - caching works automatically!
 
 ---
 
