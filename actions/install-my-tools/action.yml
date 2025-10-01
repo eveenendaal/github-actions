@@ -50,22 +50,30 @@ runs:
       # Installs go-task using Homebrew if 'task' is included or if include is empty
       if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'task'))
       shell: bash
-      run: brew install go-task
+      run: |
+        brew install go-task
+        brew link --overwrite --force go-task
     - name: Install opentofu on macOS
       # Installs opentofu using Homebrew if 'opentofu' is included or if include is empty
       if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'opentofu'))
       shell: bash
-      run: brew install opentofu
+      run: |
+        brew install opentofu
+        brew link --overwrite --force opentofu
     - name: Install uv on macOS
       # Installs uv using Homebrew if 'uv' is included or if include is empty
       if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'uv'))
       shell: bash
-      run: brew install uv
+      run: |
+        brew install uv
+        brew link --overwrite --force uv
     - name: Install age on macOS
       # Installs age using Homebrew if 'age' is included or if include is empty
       if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'age'))
       shell: bash
-      run: brew install age
+      run: |
+        brew install age
+        brew link --overwrite --force age
 
     # =====================
     # Linux Installation
@@ -90,6 +98,7 @@ runs:
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install go-task
+        brew link --overwrite --force go-task
     - name: Install opentofu on Linux
       # Installs opentofu using Homebrew if 'opentofu' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'opentofu'))
@@ -97,6 +106,7 @@ runs:
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install opentofu
+        brew link --overwrite --force opentofu
     - name: Install uv on Linux
       # Installs uv using Homebrew if 'uv' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'uv'))
@@ -104,6 +114,7 @@ runs:
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install uv
+        brew link --overwrite --force uv
     - name: Install age on Linux
       # Installs age using Homebrew if 'age' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'age'))
@@ -111,6 +122,7 @@ runs:
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install age
+        brew link --overwrite --force age
 
 branding:
   icon: 'package'
