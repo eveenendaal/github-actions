@@ -13,6 +13,37 @@ runs:
   using: 'composite'
   steps:
     # =====================
+    # Cache Setup
+    # =====================
+    - name: Setup cache key
+      id: cache-key
+      shell: bash
+      run: |
+        # Determine tools to install
+        if [ -z "${{ inputs.include }}" ]; then
+          TOOLS="task,opentofu,uv,age"
+        else
+          TOOLS="${{ inputs.include }}"
+        fi
+        # Create sorted list for consistent cache key
+        SORTED_TOOLS=$(echo "$TOOLS" | tr ',' '\n' | sort | tr '\n' ',' | sed 's/,$//')
+        echo "tools=$SORTED_TOOLS" >> $GITHUB_OUTPUT
+        echo "Cache key will include: $SORTED_TOOLS"
+    
+    - name: Cache Homebrew packages
+      id: cache-homebrew
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/Library/Caches/Homebrew
+          /home/linuxbrew/.linuxbrew/Cellar
+          /home/linuxbrew/.linuxbrew/Caskroom
+        key: ${{ runner.os }}-homebrew-${{ steps.cache-key.outputs.tools }}-v1
+        restore-keys: |
+          ${{ runner.os }}-homebrew-${{ steps.cache-key.outputs.tools }}-
+          ${{ runner.os }}-homebrew-
+    
+    # =====================
     # macOS Installation
     # =====================
     - name: Install go-task on macOS
