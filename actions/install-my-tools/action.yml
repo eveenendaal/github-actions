@@ -25,8 +25,8 @@ runs:
         else
           TOOLS="${{ inputs.include }}"
         fi
-        # Create sorted list for consistent cache key
-        SORTED_TOOLS=$(echo "$TOOLS" | tr ',' '\n' | sort | tr '\n' ',' | sed 's/,$//')
+        # Create sorted list for consistent cache key (use hyphens instead of commas)
+        SORTED_TOOLS=$(echo "$TOOLS" | tr ',' '\n' | sort | tr '\n' '-' | sed 's/-$//')
         echo "tools=$SORTED_TOOLS" >> $GITHUB_OUTPUT
         echo "Cache key will include: $SORTED_TOOLS"
     
