@@ -53,17 +53,23 @@ runs:
       shell: bash
       run: |
         if ! command -v brew &> /dev/null; then
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+          # Suppress ldd broken pipe errors by redirecting stderr
+          HOMEBREW_NO_ENV_HINTS=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 2>&1 | grep -v "printf: write error"
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           # Add Homebrew directories to PATH for subsequent workflow steps
           echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
           echo "/home/linuxbrew/.linuxbrew/sbin" >> $GITHUB_PATH
+          # Install build dependencies
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential
         fi
     - name: Install go-task on Linux
       # Installs go-task using Homebrew if 'task' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'task'))
       shell: bash
+      env:
+        HOMEBREW_NO_ENV_HINTS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install go-task
@@ -72,6 +78,9 @@ runs:
       # Installs opentofu using Homebrew if 'opentofu' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'opentofu'))
       shell: bash
+      env:
+        HOMEBREW_NO_ENV_HINTS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install opentofu
@@ -80,6 +89,9 @@ runs:
       # Installs uv using Homebrew if 'uv' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'uv'))
       shell: bash
+      env:
+        HOMEBREW_NO_ENV_HINTS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install uv
@@ -88,6 +100,9 @@ runs:
       # Installs age using Homebrew if 'age' is included or if include is empty
       if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'age'))
       shell: bash
+      env:
+        HOMEBREW_NO_ENV_HINTS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install age
