@@ -1,11 +1,11 @@
 name: 'Install Tools'
 # This GitHub Action installs development tools based on OS and user input.
-description: 'Installs task, opentofu, uv, and age.'
+description: 'Installs task, opentofu, uv, age, and plantuml.'
 author: 'Eric Veenendaal'
 
 inputs:
   include:
-    description: 'Comma-separated list of tools to include (e.g., task,opentofu,uv,age). If empty, all tools are installed.'
+    description: 'Comma-separated list of tools to include (e.g., task,opentofu,uv,age,plantuml). If empty, all tools are installed.'
     required: false
     default: ''
 
@@ -43,13 +43,20 @@ runs:
       run: |
         brew install age
         brew link --overwrite --force age
+    - name: Install plantuml on macOS
+      # Installs plantuml using Homebrew if 'plantuml' is included or if include is empty
+      if: runner.os == 'macOS' && (inputs.include == '' || contains(inputs.include, 'plantuml'))
+      shell: bash
+      run: |
+        brew install plantuml
+        brew link --overwrite --force plantuml
 
     # =====================
     # Linux Installation
     # =====================
     - name: Install Homebrew on Linux
       # Installs Homebrew if any tools are requested on Linux
-      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'task') || contains(inputs.include, 'opentofu') || contains(inputs.include, 'uv') || contains(inputs.include, 'age'))
+      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'task') || contains(inputs.include, 'opentofu') || contains(inputs.include, 'uv') || contains(inputs.include, 'age') || contains(inputs.include, 'plantuml'))
       shell: bash
       run: |
         if ! command -v brew &> /dev/null; then
@@ -107,6 +114,17 @@ runs:
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install age
         brew link --overwrite --force age
+    - name: Install plantuml on Linux
+      # Installs plantuml using Homebrew if 'plantuml' is included or if include is empty
+      if: runner.os == 'Linux' && (inputs.include == '' || contains(inputs.include, 'plantuml'))
+      shell: bash
+      env:
+        HOMEBREW_NO_ENV_HINTS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
+      run: |
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        brew install plantuml
+        brew link --overwrite --force plantuml
 
 branding:
   icon: 'package'
